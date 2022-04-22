@@ -10,6 +10,9 @@ export var SNAP_SIZE = 64;
 export var PLAYER_HEIGHT = 64;
 
 onready var animatedSpriteNode = $AnimatedSprite; 
+onready var attackUpCollision = $attack_up_collsion;
+onready var attackDownCollision = $attack_down_collsion;
+onready var attackMiddleCollision = $attack_middle_collision;
 
 var snap = true;
 var curr_jump_counter = 0;
@@ -50,13 +53,17 @@ func _physics_process(delta):
 		var mouse_coords = get_viewport().get_mouse_position();
 		if mouse_coords.y < position.y-PLAYER_HEIGHT/2:
 			curr_state = states.ATTACK_UP;
+			attackUpCollision.disabled = false;
 			print("up");
 		elif mouse_coords.y > position.y+PLAYER_HEIGHT/2:
 			curr_state = states.ATTACK_DOWN;
+			attackDownCollision.disabled = false;
 			print("down");
 		else:
 			curr_state = states.ATTACK_MIDDLE;
+			attackMiddleCollision.disabled = false;
 			print("middle");
+			
 	if curr_state == states.ATTACK_UP:
 		animatedSpriteNode.play("attack_up")
 	elif  curr_state == states.ATTACK_MIDDLE:
@@ -86,4 +93,7 @@ func getPressDirection():
 
 
 func _on_AnimatedSprite_animation_finished():
+	attackDownCollision.disabled = true;
+	attackUpCollision.disabled = true;
+	attackMiddleCollision.disabled = true;
 	curr_state = states.NOT_ATTACKING
