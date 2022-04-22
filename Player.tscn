@@ -1,15 +1,119 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://Animations/adventurer-idle-2-00.png" type="Texture" id=2]
+[ext_resource path="res://Animations/adventurer-idle-2-01.png" type="Texture" id=3]
+[ext_resource path="res://Animations/adventurer-idle-2-03.png" type="Texture" id=4]
+[ext_resource path="res://Animations/adventurer-idle-2-02.png" type="Texture" id=5]
+[ext_resource path="res://Animations/adventurer-run-01.png" type="Texture" id=6]
+[ext_resource path="res://Animations/adventurer-run-00.png" type="Texture" id=7]
+[ext_resource path="res://Animations/adventurer-run-05.png" type="Texture" id=8]
+[ext_resource path="res://Animations/adventurer-run-03.png" type="Texture" id=9]
+[ext_resource path="res://Animations/adventurer-run-04.png" type="Texture" id=10]
+[ext_resource path="res://Animations/adventurer-run-02.png" type="Texture" id=11]
+[ext_resource path="res://Animations/adventurer-attack1-04.png" type="Texture" id=12]
+[ext_resource path="res://Animations/adventurer-attack1-00.png" type="Texture" id=13]
+[ext_resource path="res://Animations/adventurer-attack1-03.png" type="Texture" id=14]
+[ext_resource path="res://Animations/adventurer-attack1-02.png" type="Texture" id=15]
+[ext_resource path="res://Animations/adventurer-attack2-04.png" type="Texture" id=16]
+[ext_resource path="res://Animations/adventurer-attack1-01.png" type="Texture" id=17]
+[ext_resource path="res://Animations/adventurer-attack2-03.png" type="Texture" id=18]
+[ext_resource path="res://Animations/adventurer-attack2-01.png" type="Texture" id=19]
+[ext_resource path="res://Animations/adventurer-attack2-00.png" type="Texture" id=20]
+[ext_resource path="res://Animations/adventurer-attack2-02.png" type="Texture" id=21]
+[ext_resource path="res://Animations/adventurer-attack2-05.png" type="Texture" id=22]
+[ext_resource path="res://Animations/adventurer-run-punch-01.png" type="Texture" id=23]
+[ext_resource path="res://Animations/adventurer-run-punch-02.png" type="Texture" id=24]
+[ext_resource path="res://Animations/adventurer-run-punch-06.png" type="Texture" id=25]
+[ext_resource path="res://Animations/adventurer-run-punch-03.png" type="Texture" id=26]
+[ext_resource path="res://Animations/adventurer-run-punch-04.png" type="Texture" id=27]
+[ext_resource path="res://Animations/adventurer-run-punch-00.png" type="Texture" id=28]
+[ext_resource path="res://Animations/adventurer-run-punch-05.png" type="Texture" id=29]
+[ext_resource path="res://Animations/adventurer-fall-01.png" type="Texture" id=30]
+[ext_resource path="res://Animations/adventurer-fall-00.png" type="Texture" id=31]
+[ext_resource path="res://Animations/adventurer-jump-02.png" type="Texture" id=32]
+[ext_resource path="res://Animations/adventurer-jump-00.png" type="Texture" id=33]
+[ext_resource path="res://Animations/adventurer-jump-01.png" type="Texture" id=34]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 32 )
+[sub_resource type="CapsuleShape2D" id=3]
+height = 13.0
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "idle",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 22 ) ],
+"loop": false,
+"name": "attack_down",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 29 ), ExtResource( 25 ) ],
+"loop": false,
+"name": "attack_middle",
+"speed": 12.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 17 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 12 ) ],
+"loop": false,
+"name": "attack_up",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 31 ), ExtResource( 30 ) ],
+"loop": true,
+"name": "fall",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 6 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 32 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 8.5, 14 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 7.25, 12 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 6, 6.25 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PoolVector2Array( -32, -32, 32, -32, 32, 32, -32, 32 )
+SNAP_SIZE = 32
+PLAYER_HEIGHT = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( -1, 3.5 )
+rotation = 3.14159
+shape = SubResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -1, 0 )
+frames = SubResource( 2 )
+animation = "attack_middle"
+frame = 3
+
+[node name="attack_up_collsion" type="CollisionShape2D" parent="." groups=["hit"]]
+position = Vector2( 14, -7 )
+shape = SubResource( 5 )
+disabled = true
+
+[node name="attack_down_collsion" type="CollisionShape2D" parent="." groups=["hit"]]
+position = Vector2( 15.75, 8 )
+shape = SubResource( 4 )
+disabled = true
+
+[node name="attack_middle_collision" type="CollisionShape2D" parent="." groups=["hit"]]
+position = Vector2( 16, 4.75 )
+shape = SubResource( 6 )
+disabled = true
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

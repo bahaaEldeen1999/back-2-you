@@ -8,7 +8,8 @@ extents = Vector2( 507, 37 )
 [node name="Arena" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 207, 251 )
+position = Vector2( 232, 248 )
+scale = Vector2( 3, 3 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
