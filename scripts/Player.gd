@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal hit_ball(hit_vector);
+
 export var MAX_SPEED = 405;
 export var GRAVITY = 100;
 export var MAX_JUMP_COUNT = 2;
@@ -10,10 +12,12 @@ export var SNAP_SIZE = 64;
 export var PLAYER_HEIGHT = 64;
 
 onready var animatedSpriteNode = $AnimatedSprite; 
-onready var attackUpCollision = $attack_up_collsion;
-onready var attackDownCollision = $attack_down_collsion;
-onready var attackMiddleCollision = $attack_middle_collision;
+onready var attackUpCollision = $Area2D/attack_up_collsion;
+onready var attackDownCollision = $Area2D/attack_down_collsion;
+onready var attackMiddleCollision = $Area2D/attack_middle_collision;
+onready var area2D = $Area2D;
 
+var hit_vector = Vector2.ZERO;
 var snap = true;
 var curr_jump_counter = 0;
 var velocity = Vector2.ZERO;
@@ -43,14 +47,16 @@ func _physics_process(delta):
 			if !facing_direction:
 				facing_direction = true;
 				animatedSpriteNode.flip_h = facing_direction
+				invert_attack_collisions();
 	elif velocity.x > 0:
 		if facing_direction:
 			facing_direction = false;
 			animatedSpriteNode.flip_h = facing_direction
-	
+			invert_attack_collisions();
 	# directional attack 
 	if Input.is_action_just_pressed("mouse_click"):
 		var mouse_coords = get_viewport().get_mouse_position();
+		hit_vector = (mouse_coords-position).normalized();
 		if mouse_coords.y < position.y-PLAYER_HEIGHT/2:
 			curr_state = states.ATTACK_UP;
 			attackUpCollision.disabled = false;
@@ -97,3 +103,13 @@ func _on_AnimatedSprite_animation_finished():
 	attackUpCollision.disabled = true;
 	attackMiddleCollision.disabled = true;
 	curr_state = states.NOT_ATTACKING
+
+func  invert_attack_collisions():
+	attackMiddleCollision.position.x = - attackMiddleCollision.position.x;
+	attackUpCollision.position.x = - attackUpCollision.position.x;
+	attackDownCollision.position.x = - attackDownCollision.position.x;
+	
+func _on_Area2D_area_entered(area):
+	if area.is_in_group("ball"):
+		print("player hit vector",hit_vector)
+		emit_signal("hit_ball",hit_vector)

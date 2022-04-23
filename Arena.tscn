@@ -1,9 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 507, 37 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 52, 247 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 48.5, 248.5 )
 
 [node name="Arena" type="Node2D"]
 
@@ -11,11 +18,47 @@ extents = Vector2( 507, 37 )
 position = Vector2( 232, 248 )
 scale = Vector2( 3, 3 )
 
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2( -1512, 0 )
+scale = Vector2( 4, 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D4"]
+position = Vector2( 0, -392 )
+polygon = PoolVector2Array( 8, 384, 486, 384, 1024, 384, 1024, 456, 0, 448 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2( 506, 24 )
+shape = SubResource( 1 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2( 984, 248 )
+shape = SubResource( 3 )
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D3"]
+polygon = PoolVector2Array( 944, 0, 1032, 0, 1032, 504, 920, 496 )
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( -504, 0 )
+scale = Vector2( 2, 1 )
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( 8, 384, 1024, 384, 1024, 456, 0, 448 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 512, 419 )
+position = Vector2( 504, 424 )
 shape = SubResource( 1 )
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+position = Vector2( 640, 224 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2( 24, 264 )
+shape = SubResource( 2 )
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D2"]
+position = Vector2( -944, 0 )
+polygon = PoolVector2Array( 944, 0, 1032, 0, 1032, 504, 920, 496 )
