@@ -27,6 +27,14 @@ enum states  {NOT_ATTACKING,ATTACK_UP,ATTACK_MIDDLE,ATTACK_DOWN};
 var curr_state = states.NOT_ATTACKING; 
 
 func _physics_process(delta):
+	# to fix last frame bug 
+	# HACK
+	if animatedSpriteNode.frame == animatedSpriteNode.frames.get_frame_count(animatedSpriteNode.animation)-1:
+		curr_state = states.NOT_ATTACKING
+		attackDownCollision.disabled = true;
+		attackUpCollision.disabled = true;
+		attackMiddleCollision.disabled = true;
+	###########################################
 	var direction = getPressDirection();
 	velocity.x = 0;
 	velocity.x += direction.x*ACCELERATION*delta;
@@ -53,6 +61,7 @@ func _physics_process(delta):
 			facing_direction = false;
 			animatedSpriteNode.flip_h = facing_direction
 			invert_attack_collisions();
+	
 	# directional attack 
 	if Input.is_action_just_pressed("attack"):
 		#var mouse_coords = get_viewport().get_mouse_position();
@@ -75,30 +84,37 @@ func _physics_process(delta):
 		if hit_vector.y < -0.4:
 			curr_state = states.ATTACK_UP;
 			attackUpCollision.disabled = false;
+			attackDownCollision.disabled = true;
+			attackMiddleCollision.disabled = true;
 			print("up");
 		elif hit_vector.y > 0.4:
 			curr_state = states.ATTACK_DOWN;
 			attackDownCollision.disabled = false;
+			attackUpCollision.disabled = true;
+			attackMiddleCollision.disabled = true;
 			print("down");
 		else:
 			curr_state = states.ATTACK_MIDDLE;
 			attackMiddleCollision.disabled = false;
+			attackDownCollision.disabled = true;
+			attackUpCollision.disabled = true;
+			print(animatedSpriteNode.frame)
 			print("middle");
-			
+	#print("cur state",curr_state);
 	if curr_state == states.ATTACK_UP:
-		animatedSpriteNode.play("attack_up")
+		play_animation_if_not_playing("attack_up");
 	elif  curr_state == states.ATTACK_MIDDLE:
-		animatedSpriteNode.play("attack_middle")
+		play_animation_if_not_playing("attack_middle");
 	elif curr_state == states.ATTACK_DOWN:
-		animatedSpriteNode.play("attack_down")
+		play_animation_if_not_playing("attack_down");
 	elif velocity.y < 0:
-		animatedSpriteNode.play("jump");
+		play_animation_if_not_playing("jump");
 	elif velocity.y > 0 :
-		animatedSpriteNode.play("fall");
+		play_animation_if_not_playing("fall");
 	elif velocity.x != 0: 
-		animatedSpriteNode.play("run");
+		play_animation_if_not_playing("run");
 	else: 
-		animatedSpriteNode.play("idle");
+		play_animation_if_not_playing("idle");
 	move_and_slide_with_snap(velocity,snap_vector,Vector2(0,-1));
 	#print(velocity.y)
 	if is_on_floor():
@@ -114,6 +130,7 @@ func getPressDirection():
 
 
 func _on_AnimatedSprite_animation_finished():
+	#print("fin")
 	attackDownCollision.disabled = true;
 	attackUpCollision.disabled = true;
 	attackMiddleCollision.disabled = true;
@@ -128,3 +145,11 @@ func _on_Area2D_area_entered(area):
 	if area.is_in_group("ball"):
 		print("player hit vector",hit_vector)
 		emit_signal("hit_ball",hit_vector)
+		attackDownCollision.set_deferred("disabled",true);
+		attackUpCollision.set_deferred("disabled",true);
+		attackMiddleCollision.set_deferred("disabled",true);
+func play_animation_if_not_playing(animation):
+	if animatedSpriteNode.is_playing() && animatedSpriteNode.animation == animation:
+		return;
+	animatedSpriteNode.stop();
+	animatedSpriteNode.play(animation);

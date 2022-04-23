@@ -43,17 +43,17 @@ animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "idle",
-"speed": 6.0
+"speed": 4.0
 }, {
 "frames": [ ExtResource( 20 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 22 ) ],
 "loop": false,
 "name": "attack_down",
-"speed": 20.0
+"speed": 24.0
 }, {
 "frames": [ ExtResource( 28 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 29 ), ExtResource( 25 ) ],
 "loop": false,
 "name": "attack_middle",
-"speed": 20.0
+"speed": 21.0
 }, {
 "frames": [ ExtResource( 13 ), ExtResource( 17 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 12 ) ],
 "loop": false,
@@ -68,7 +68,7 @@ animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 6 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "run",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 32 ) ],
 "loop": true,
@@ -99,7 +99,6 @@ shape = SubResource( 3 )
 position = Vector2( -1, 0 )
 frames = SubResource( 2 )
 animation = "attack_middle"
-frame = 3
 
 [node name="Area2D" type="Area2D" parent="." groups=["hit"]]
 

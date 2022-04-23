@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 
-export var HIT_FORCE = 100;
+export var HIT_FORCE = 50;
 
 func _ready():
 	get_parent().get_node("Player").connect("hit_ball",self,"_on_player_attack");
