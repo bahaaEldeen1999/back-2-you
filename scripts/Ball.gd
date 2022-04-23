@@ -9,4 +9,4 @@ func _ready():
 
 func _on_player_attack(hit_vector):
 	print("hit vector",hit_vector);
-	add_central_force(hit_vector*HIT_FORCE);
+	apply_central_impulse(hit_vector*HIT_FORCE);

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Ball.gd" type="Script" id=1]
+[ext_resource path="res://assets/PngItem_2923071.png" type="Texture" id=2]
 
 [sub_resource type="PhysicsMaterial" id=2]
 friction = 0.1
@@ -27,5 +28,7 @@ scale = Vector2( 2, 2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.08, 0.08 )
+texture = ExtResource( 2 )
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
