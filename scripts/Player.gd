@@ -54,14 +54,29 @@ func _physics_process(delta):
 			animatedSpriteNode.flip_h = facing_direction
 			invert_attack_collisions();
 	# directional attack 
-	if Input.is_action_just_pressed("mouse_click"):
-		var mouse_coords = get_viewport().get_mouse_position();
-		hit_vector = (mouse_coords-position).normalized();
-		if mouse_coords.y < position.y-PLAYER_HEIGHT/2:
+	if Input.is_action_just_pressed("attack"):
+		#var mouse_coords = get_viewport().get_mouse_position();
+		#var mouse_coords = 
+		#hit_vector = (mouse_coords-position).normalized();
+		hit_vector = Vector2(Input.get_action_strength("right") - Input.get_action_strength("left"),Input.get_action_strength("down")-Input.get_action_strength("up"));
+		""" if mouse_coords.y < position.y-PLAYER_HEIGHT/2:
 			curr_state = states.ATTACK_UP;
 			attackUpCollision.disabled = false;
 			print("up");
 		elif mouse_coords.y > position.y+PLAYER_HEIGHT/2:
+			curr_state = states.ATTACK_DOWN;
+			attackDownCollision.disabled = false;
+			print("down");
+		else:
+			curr_state = states.ATTACK_MIDDLE;
+			attackMiddleCollision.disabled = false;
+			print("middle"); """
+		
+		if hit_vector.y < -0.4:
+			curr_state = states.ATTACK_UP;
+			attackUpCollision.disabled = false;
+			print("up");
+		elif hit_vector.y > 0.4:
 			curr_state = states.ATTACK_DOWN;
 			attackDownCollision.disabled = false;
 			print("down");
@@ -95,7 +110,7 @@ func _physics_process(delta):
 	
 	
 func getPressDirection():
-	return Vector2(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),Input.is_action_just_pressed("ui_up"));
+	return Vector2(Input.get_action_strength("right") - Input.get_action_strength("left"),Input.is_action_just_pressed("jump"));
 
 
 func _on_AnimatedSprite_animation_finished():
