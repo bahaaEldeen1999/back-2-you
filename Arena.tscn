@@ -16,7 +16,7 @@ extents = Vector2( 48.5, 248.5 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 232, 248 )
-scale = Vector2( 3, 3 )
+scale = Vector2( 4, 4 )
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="."]
 position = Vector2( -1512, 0 )
