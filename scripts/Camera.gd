@@ -14,6 +14,8 @@ func _ready():
 	
 	get_parent().get_node("CanvasModulate/Player1").connect("hit_ball",self,"_on_hit_ball");
 	get_parent().get_node("CanvasModulate/Player2").connect("hit_ball",self,"_on_hit_ball");
+	get_parent().get_node("CanvasModulate/Goal1").connect("goal_signal",self,"_on_goal");
+	get_parent().get_node("CanvasModulate/Goal2").connect("goal_signal",self,"_on_goal");
 
 
 
@@ -66,3 +68,5 @@ func _on_hit_ball(hit_vector):
 	#print("hit_ball_camera")
 	shake(.5,15,1);
 
+func _on_goal(goal_number):
+	shake(1,20,2);

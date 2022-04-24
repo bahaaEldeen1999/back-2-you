@@ -1,13 +1,16 @@
 extends KinematicBody2D
 
 signal hit_ball(hit_vector);
+var player_attack_sound = preload("res://sound/attack.wav");
+var walk_sound = preload("res://sound/walk.wav");
+var jump_sound = preload("res://sound/jump.wav");
 
 export var MAX_SPEED = 500;
 export var GRAVITY = 100;
 export var MAX_JUMP_COUNT = 2;
 export var ACCELERATION = 300;
-export var JUMP_FORCE = [400,450];
-export var GRAVITY_INCREASE_FACTOR = 1.1;
+export var JUMP_FORCE = [450,250];
+export var GRAVITY_INCREASE_FACTOR = 1.08;
 export var SNAP_SIZE = 64;
 export var PLAYER_HEIGHT = 64;
 export var light_color = Color(1,0,0);
@@ -19,6 +22,7 @@ onready var attackDownCollision = $Area2D/attack_down_collsion;
 onready var attackMiddleCollision = $Area2D/attack_middle_collision;
 onready var area2D = $Area2D;
 onready var light = $Light2D;
+onready var audioStreamPlayer2dNode = $AudioStreamPlayer2D;
 
 
 var hit_vector = Vector2.ZERO;
@@ -75,6 +79,8 @@ func _physics_process(delta):
 	
 	# directional attack 
 	if Input.is_action_just_pressed("attack"+player_number):
+		audioStreamPlayer2dNode.stream = player_attack_sound;
+		audioStreamPlayer2dNode.play();
 		#var mouse_coords = get_viewport().get_mouse_position();
 		#var mouse_coords = 
 		#hit_vector = (mouse_coords-position).normalized();
@@ -126,6 +132,9 @@ func _physics_process(delta):
 	elif curr_state == states.ATTACK_DOWN:
 		play_animation_if_not_playing("attack_down");
 	elif velocity.y < 0:
+		if direction.y==1:
+			audioStreamPlayer2dNode.stream = jump_sound;
+			audioStreamPlayer2dNode.play();
 		play_animation_if_not_playing("jump");
 	elif velocity.y > 0 :
 		play_animation_if_not_playing("fall");
@@ -166,6 +175,7 @@ func _on_Area2D_area_entered(area):
 		attackDownCollision.set_deferred("disabled",true);
 		attackUpCollision.set_deferred("disabled",true);
 		attackMiddleCollision.set_deferred("disabled",true);
+		
 func play_animation_if_not_playing(animation):
 	if animatedSpriteNode.is_playing() && animatedSpriteNode.animation == animation:
 		return;
