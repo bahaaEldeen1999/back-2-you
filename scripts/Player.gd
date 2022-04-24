@@ -78,39 +78,46 @@ func _physics_process(delta):
 		#var mouse_coords = get_viewport().get_mouse_position();
 		#var mouse_coords = 
 		#hit_vector = (mouse_coords-position).normalized();
-		hit_vector = Vector2(Input.get_action_strength("right"+player_number) - Input.get_action_strength("left"+player_number),Input.get_action_strength("down"+player_number)-Input.get_action_strength("up"+player_number));
-		""" if mouse_coords.y < position.y-PLAYER_HEIGHT/2:
-			curr_state = states.ATTACK_UP;
-			attackUpCollision.disabled = false;
-			print("up");
-		elif mouse_coords.y > position.y+PLAYER_HEIGHT/2:
-			curr_state = states.ATTACK_DOWN;
-			attackDownCollision.disabled = false;
-			print("down");
-		else:
-			curr_state = states.ATTACK_MIDDLE;
-			attackMiddleCollision.disabled = false;
-			print("middle"); """
-		
-		if hit_vector.y < -0.4:
-			curr_state = states.ATTACK_UP;
-			attackUpCollision.disabled = false;
-			attackDownCollision.disabled = true;
-			attackMiddleCollision.disabled = true;
-			#print("up");
-		elif hit_vector.y > 0.4:
-			curr_state = states.ATTACK_DOWN;
-			attackDownCollision.disabled = false;
-			attackUpCollision.disabled = true;
-			attackMiddleCollision.disabled = true;
-			#print("down");
-		else:
-			curr_state = states.ATTACK_MIDDLE;
-			attackMiddleCollision.disabled = false;
-			attackDownCollision.disabled = true;
-			attackUpCollision.disabled = true;
-			print(animatedSpriteNode.frame)
-			#print("middle");
+		if player_number == "1":
+			# get coords based on analog 
+			hit_vector = Vector2(Input.get_action_strength("right"+player_number) - Input.get_action_strength("left"+player_number),Input.get_action_strength("down"+player_number)-Input.get_action_strength("up"+player_number)).normalized();
+			if hit_vector.y < -0.4:
+				curr_state = states.ATTACK_UP;
+				attackUpCollision.disabled = false;
+				attackDownCollision.disabled = true;
+				attackMiddleCollision.disabled = true;
+				#print("up");
+			elif hit_vector.y > 0.4:
+				curr_state = states.ATTACK_DOWN;
+				attackDownCollision.disabled = false;
+				attackUpCollision.disabled = true;
+				attackMiddleCollision.disabled = true;
+				#print("down");
+			else:
+				curr_state = states.ATTACK_MIDDLE;
+				attackMiddleCollision.disabled = false;
+				attackDownCollision.disabled = true;
+				attackUpCollision.disabled = true;
+				print(animatedSpriteNode.frame)
+				#print("middle");
+		elif player_number == "2":
+			# get coords based on mouse 
+			var mouse_coords = get_viewport().get_mouse_position();
+			hit_vector = (mouse_coords-position).normalized();
+			if mouse_coords.y < position.y-PLAYER_HEIGHT/2:
+				curr_state = states.ATTACK_UP;
+				attackUpCollision.disabled = false;
+				#print("up");
+			elif mouse_coords.y > position.y+PLAYER_HEIGHT/2:
+				curr_state = states.ATTACK_DOWN;
+				attackDownCollision.disabled = false;
+				#print("down");
+			else:
+				curr_state = states.ATTACK_MIDDLE;
+				attackMiddleCollision.disabled = false;
+				#print("middle");
+			
+			
 	#print("cur state",curr_state);
 	if curr_state == states.ATTACK_UP:
 		play_animation_if_not_playing("attack_up");

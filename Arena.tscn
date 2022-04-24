@@ -57,7 +57,7 @@ energy = 0.6
 shadow_enabled = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.0705882, 0.0705882, 0.0705882, 1 )
+color = Color( 0.909804, 0.854902, 0.854902, 1 )
 
 [node name="Sprite" type="Sprite" parent="CanvasModulate"]
 position = Vector2( 526.04, 244.937 )
@@ -97,7 +97,7 @@ scale = Vector2( 5, 5 )
 light_color = Color( 0.960784, 0.27451, 0.580392, 1 )
 
 [node name="leftwall1" type="StaticBody2D" parent="."]
-position = Vector2( -73.3296, 536.944 )
+position = Vector2( -72, 560 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="leftwall1"]
 rotation = 1.5708
@@ -105,7 +105,7 @@ scale = Vector2( 0.3, 1 )
 shape = SubResource( 2 )
 
 [node name="leftwall2" type="StaticBody2D" parent="."]
-position = Vector2( -72.2333, -125.368 )
+position = Vector2( -80, -144 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="leftwall2"]
 rotation = 1.5708
@@ -113,7 +113,7 @@ scale = Vector2( 0.3, 1 )
 shape = SubResource( 2 )
 
 [node name="rightwall1" type="StaticBody2D" parent="."]
-position = Vector2( -79.4553, 593.638 )
+position = Vector2( -80, 616 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="rightwall1"]
 position = Vector2( 1118.23, 8.16223 )
@@ -122,7 +122,7 @@ scale = Vector2( 0.4, 1 )
 shape = SubResource( 2 )
 
 [node name="rightwall2" type="StaticBody2D" parent="."]
-position = Vector2( -74.7355, -201.672 )
+position = Vector2( -80, -224 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="rightwall2"]
 position = Vector2( 1118.23, 8.16223 )
@@ -140,4 +140,5 @@ shape = SubResource( 2 )
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 485.522, 276.081 )
 current = true
+zoom = Vector2( 1.2, 1 )
 script = ExtResource( 7 )

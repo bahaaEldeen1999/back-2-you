@@ -101,27 +101,19 @@ position = Vector2( -1, 0 )
 frames = SubResource( 2 )
 animation = "attack_middle"
 
-[node name="Area2D" type="Area2D" parent="." groups=[
-"hit",
-]]
+[node name="Area2D" type="Area2D" parent="." groups=["hit"]]
 
-[node name="attack_up_collsion" type="CollisionShape2D" parent="Area2D" groups=[
-"hit",
-]]
+[node name="attack_up_collsion" type="CollisionShape2D" parent="Area2D" groups=["hit"]]
 position = Vector2( 14, -7 )
 shape = SubResource( 3 )
 disabled = true
 
-[node name="attack_down_collsion" type="CollisionShape2D" parent="Area2D" groups=[
-"hit",
-]]
+[node name="attack_down_collsion" type="CollisionShape2D" parent="Area2D" groups=["hit"]]
 position = Vector2( 15.75, 8 )
 shape = SubResource( 4 )
 disabled = true
 
-[node name="attack_middle_collision" type="CollisionShape2D" parent="Area2D" groups=[
-"hit",
-]]
+[node name="attack_middle_collision" type="CollisionShape2D" parent="Area2D" groups=["hit"]]
 position = Vector2( 16, 4.75 )
 shape = SubResource( 5 )
 disabled = true
@@ -131,5 +123,6 @@ texture = ExtResource( 35 )
 texture_scale = 0.5
 color = Color( 0.0235294, 0.0627451, 0.65098, 1 )
 energy = 0.9
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
