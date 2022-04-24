@@ -1,47 +1,59 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Ground.tscn" type="PackedScene" id=3]
 [ext_resource path="res://textures/light.png" type="Texture" id=4]
 [ext_resource path="res://textures/spot.png" type="Texture" id=5]
+[ext_resource path="res://scripts/Arena.gd" type="Script" id=6]
+[ext_resource path="res://scripts/Camera.gd" type="Script" id=7]
+[ext_resource path="res://textures/_11_background.png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 631.31, 52.4831 )
 
 [node name="Arena" type="Node2D"]
+script = ExtResource( 6 )
 
 [node name="spot" type="Light2D" parent="."]
-position = Vector2( 679.873, 518.44 )
+position = Vector2( 520.135, 397.663 )
 scale = Vector2( 2.99805, 3.1681 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
+color = Color( 0.654902, 0.835294, 0.933333, 1 )
 energy = 0.5
 
 [node name="spot2" type="Light2D" parent="."]
-position = Vector2( 255.436, 537.486 )
+position = Vector2( 341.149, 408.917 )
 scale = Vector2( 2.99805, 3.1681 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
+color = Color( 0.654902, 0.835294, 0.933333, 1 )
 energy = 0.5
 
 [node name="spot3" type="Light2D" parent="."]
-position = Vector2( 900.253, 537.486 )
+position = Vector2( 623.635, 447.877 )
 scale = Vector2( 2.99805, 3.1681 )
 texture = ExtResource( 5 )
 offset = Vector2( 10, 0 )
+color = Color( 0.654902, 0.835294, 0.933333, 1 )
 energy = 0.5
 
 [node name="ambient" type="Light2D" parent="."]
-position = Vector2( 440.447, 303.501 )
+position = Vector2( 436.13, 303.501 )
 texture = ExtResource( 4 )
 texture_scale = 10.0
-color = Color( 0.976471, 0.894118, 0.780392, 1 )
+color = Color( 0.0627451, 0.2, 0.490196, 1 )
 energy = 0.6
 shadow_enabled = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.482353, 0.478431, 0.478431, 1 )
+color = Color( 0.0705882, 0.0705882, 0.0705882, 1 )
+
+[node name="Sprite" type="Sprite" parent="CanvasModulate"]
+position = Vector2( 526.04, 244.937 )
+scale = Vector2( 0.551298, 0.46828 )
+texture = ExtResource( 8 )
 
 [node name="Ground" parent="CanvasModulate" instance=ExtResource( 3 )]
 position = Vector2( -126.766, 554.582 )
@@ -75,3 +87,8 @@ position = Vector2( -46.2527, 280.237 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="upperwall"]
 position = Vector2( 496.42, -313.845 )
 shape = SubResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 485.522, 276.081 )
+current = true
+script = ExtResource( 7 )
