@@ -2,20 +2,24 @@ extends KinematicBody2D
 
 signal hit_ball(hit_vector);
 
-export var MAX_SPEED = 405;
+export var MAX_SPEED = 500;
 export var GRAVITY = 100;
 export var MAX_JUMP_COUNT = 2;
 export var ACCELERATION = 300;
-export var JUMP_FORCE = [300,250];
+export var JUMP_FORCE = [400,450];
 export var GRAVITY_INCREASE_FACTOR = 1.1;
 export var SNAP_SIZE = 64;
 export var PLAYER_HEIGHT = 64;
+export var light_color = Color(1,0,0);
+export var player_number = "1";
 
 onready var animatedSpriteNode = $AnimatedSprite; 
 onready var attackUpCollision = $Area2D/attack_up_collsion;
 onready var attackDownCollision = $Area2D/attack_down_collsion;
 onready var attackMiddleCollision = $Area2D/attack_middle_collision;
 onready var area2D = $Area2D;
+onready var light = $Light2D;
+
 
 var hit_vector = Vector2.ZERO;
 var snap = true;
@@ -26,6 +30,13 @@ var facing_direction = false; # facing right
 enum states  {NOT_ATTACKING,ATTACK_UP,ATTACK_MIDDLE,ATTACK_DOWN};
 var curr_state = states.NOT_ATTACKING; 
 
+func _ready():
+	light.color = light_color;
+	facing_direction = false if player_number == "1" else true;
+	if facing_direction:
+		animatedSpriteNode.flip_h = facing_direction
+		invert_attack_collisions();
+	
 func _physics_process(delta):
 	# to fix last frame bug 
 	# HACK
@@ -63,11 +74,11 @@ func _physics_process(delta):
 			invert_attack_collisions();
 	
 	# directional attack 
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack"+player_number):
 		#var mouse_coords = get_viewport().get_mouse_position();
 		#var mouse_coords = 
 		#hit_vector = (mouse_coords-position).normalized();
-		hit_vector = Vector2(Input.get_action_strength("right") - Input.get_action_strength("left"),Input.get_action_strength("down")-Input.get_action_strength("up"));
+		hit_vector = Vector2(Input.get_action_strength("right"+player_number) - Input.get_action_strength("left"+player_number),Input.get_action_strength("down"+player_number)-Input.get_action_strength("up"+player_number));
 		""" if mouse_coords.y < position.y-PLAYER_HEIGHT/2:
 			curr_state = states.ATTACK_UP;
 			attackUpCollision.disabled = false;
@@ -86,20 +97,20 @@ func _physics_process(delta):
 			attackUpCollision.disabled = false;
 			attackDownCollision.disabled = true;
 			attackMiddleCollision.disabled = true;
-			print("up");
+			#print("up");
 		elif hit_vector.y > 0.4:
 			curr_state = states.ATTACK_DOWN;
 			attackDownCollision.disabled = false;
 			attackUpCollision.disabled = true;
 			attackMiddleCollision.disabled = true;
-			print("down");
+			#print("down");
 		else:
 			curr_state = states.ATTACK_MIDDLE;
 			attackMiddleCollision.disabled = false;
 			attackDownCollision.disabled = true;
 			attackUpCollision.disabled = true;
 			print(animatedSpriteNode.frame)
-			print("middle");
+			#print("middle");
 	#print("cur state",curr_state);
 	if curr_state == states.ATTACK_UP:
 		play_animation_if_not_playing("attack_up");
@@ -126,7 +137,7 @@ func _physics_process(delta):
 	
 	
 func getPressDirection():
-	return Vector2(Input.get_action_strength("right") - Input.get_action_strength("left"),Input.is_action_just_pressed("jump"));
+	return Vector2(Input.get_action_strength("right"+player_number) - Input.get_action_strength("left"+player_number),Input.is_action_just_pressed("jump"+player_number));
 
 
 func _on_AnimatedSprite_animation_finished():
@@ -143,7 +154,7 @@ func  invert_attack_collisions():
 	
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("ball"):
-		print("player hit vector",hit_vector)
+		#print("player hit vector",hit_vector)
 		emit_signal("hit_ball",hit_vector)
 		attackDownCollision.set_deferred("disabled",true);
 		attackUpCollision.set_deferred("disabled",true);

@@ -4,7 +4,8 @@ extends RigidBody2D
 export var HIT_FORCE = 70;
 
 func _ready():
-	get_parent().get_node("Player").connect("hit_ball",self,"_on_player_attack");
+	get_parent().get_node("Player1").connect("hit_ball",self,"_on_player_attack");
+	get_parent().get_node("Player2").connect("hit_ball",self,"_on_player_attack");
 	print("ball ready")
 
 func _on_player_attack(hit_vector):

@@ -12,7 +12,8 @@ var _last_offset = Vector2(0, 0)
 func _ready():
 	set_process(true);
 	
-	get_parent().get_node("CanvasModulate/Player").connect("hit_ball",self,"_on_hit_ball");
+	get_parent().get_node("CanvasModulate/Player1").connect("hit_ball",self,"_on_hit_ball");
+	get_parent().get_node("CanvasModulate/Player2").connect("hit_ball",self,"_on_hit_ball");
 
 
 
@@ -39,7 +40,7 @@ func _process(delta):
 		_previous_y = new_y
 		# Track how much we've moved the offset, as opposed to other effects.
 		var new_offset = Vector2(x_component, y_component)
-		print("new offset",new_offset)
+		#print("new offset",new_offset)
 		set_offset(get_offset() - _last_offset + new_offset)
 		_last_offset = new_offset
 	# Reset the offset when we're done shaking.
@@ -62,6 +63,6 @@ func shake(duration, frequency, amplitude):
 	_last_offset = Vector2(0, 0)
 
 func _on_hit_ball(hit_vector):
-	print("hit_ball_camera")
+	#print("hit_ball_camera")
 	shake(.5,15,1);
 
